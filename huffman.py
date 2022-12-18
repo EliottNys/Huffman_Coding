@@ -2,15 +2,15 @@ import math
 
 def read(file_name):
     print(file_name)
-    with open(file_name, "r", encoding="utf8") as file:
+    with open(file_name, "r") as file:
         contents = file.read()
     contents = contents.replace("\n", "*")
     return contents
 
 def visualisation_bar(before_compression, before_compression_minimum_fixed_bits, after_compression):
     print("\nSpace usage BEFORE compression (8 bits / character):\n{}  {} bits".format('█' * 200, str(before_compression)))
-    print("\nSpace usage BEFORE compression but with LOWEST fixed number of bits possible:\n{}  {} bits\n=> IMPROVEMENT: {}%\n".format('█' * int((200 * before_compression_minimum_fixed_bits/before_compression)), str(before_compression_minimum_fixed_bits), round(100*(before_compression_minimum_fixed_bits/before_compression))))
-    print("\nSpace usage AFTER compression:\n{}  {} bits\n=> IMPROVEMENT: {}%\n\n\n\n".format('█' * int((200 * after_compression/before_compression)), str(after_compression), round(100*(after_compression/before_compression))))
+    print("\nSpace usage BEFORE compression but with LOWEST fixed number of bits possible:\n{}  {} bits\n=> IMPROVEMENT RATIO: {}%\n".format('█' * int((200 * before_compression_minimum_fixed_bits/before_compression)), str(before_compression_minimum_fixed_bits), round(100*(before_compression_minimum_fixed_bits/before_compression))))
+    print("\nSpace usage AFTER compression:\n{}  {} bits\n=> IMPROVEMENT RATIO: {}%\n\n\n\n".format('█' * int((200 * after_compression/before_compression)), str(after_compression), round(100*(after_compression/before_compression))))
 
 # A Huffman Tree Node
 class Node:
@@ -44,7 +44,7 @@ def Calculate_Codes(node, val=''):
 
     if(not node.left and not node.right):
         codes[node.symbol] = newVal
-         
+    
     return codes        
 
 """ A helper function to calculate the probabilities of symbols in given data"""
@@ -109,7 +109,8 @@ def Huffman_Encoding(data):
     huffman_encoding = Calculate_Codes(nodes[0])
     Total_Gain(data, huffman_encoding)
     encoded_output = Output_Encoded(data,huffman_encoding)
-    return encoded_output, nodes[0]  
+    codes = dict()
+    return encoded_output, nodes[0]
     
  
 def Huffman_Decoding(encoded_data, huffman_tree):
@@ -128,10 +129,15 @@ def Huffman_Decoding(encoded_data, huffman_tree):
             huffman_tree = tree_head
         
     string = ''.join([str(item) for item in decoded_output])
-    return string        
+    return string
 
-
-encoding, tree = Huffman_Encoding(read("random_characters.txt"))
-encoding, tree = Huffman_Encoding(read("francais.txt"))
-encoding, tree = Huffman_Encoding(read("english.txt"))
-
+if __name__=="__main__":
+    encoding, tree = Huffman_Encoding(read("random_characters.txt"))
+    codes = dict()
+    encoding, tree = Huffman_Encoding(read("francais.txt"))
+    codes = dict()
+    encoding, tree = Huffman_Encoding(read("english.txt"))
+    codes = dict()
+    encoding, tree = Huffman_Encoding(read("ideal_case.txt"))
+    codes = dict()
+    encoding, tree = Huffman_Encoding(read("limited_characters.txt"))
