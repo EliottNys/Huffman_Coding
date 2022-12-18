@@ -1,7 +1,7 @@
 import math
 
 def read(file_name):
-    print(file_name)
+    print("FILE : {}".format(file_name))
     with open(file_name, "r") as file:
         contents = file.read()
     contents = contents.replace("\n", "*")
@@ -10,7 +10,7 @@ def read(file_name):
 def visualisation_bar(before_compression, before_compression_minimum_fixed_bits, after_compression):
     print("\nSpace usage BEFORE compression (8 bits / character):\n{}  {} bits".format('█' * 200, str(before_compression)))
     print("\nSpace usage BEFORE compression but with LOWEST fixed number of bits possible:\n{}  {} bits\n=> IMPROVEMENT RATIO: {}%\n".format('█' * int((200 * before_compression_minimum_fixed_bits/before_compression)), str(before_compression_minimum_fixed_bits), round(100*(before_compression_minimum_fixed_bits/before_compression))))
-    print("\nSpace usage AFTER compression:\n{}  {} bits\n=> IMPROVEMENT RATIO: {}%\n\n\n\n".format('█' * int((200 * after_compression/before_compression)), str(after_compression), round(100*(after_compression/before_compression))))
+    print("\nSpace usage AFTER compression:\n{}  {} bits\n=> IMPROVEMENT RATIO: {}%\n\n{}\n".format('█' * int((200 * after_compression/before_compression)), str(after_compression), round(100*(after_compression/before_compression)),"="*220))
 
 # A Huffman Tree Node
 class Node:
