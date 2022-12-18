@@ -1,0 +1,9 @@
+Huffman coding is a lossless data compression algorithm that assigns variable-length codes to characters in a message or data stream. The length of each code is determined by the frequency of the corresponding character, with more frequent characters receiving shorter codes and less frequent characters receiving longer codes.
+
+The algorithm works by building a binary tree of nodes, where each node represents a character in the message. The tree is constructed in such a way that the character at the root of the tree has the highest frequency, and the characters at the leaves of the tree have the lowest frequency.
+
+To encode a message using Huffman coding, the algorithm traverses the tree from the root to the leaf node corresponding to each character in the message, and records the path taken as a series of 0s and 1s. For example, if the path from the root to a particular leaf node consists of a 0 followed by a 1, the corresponding code for that character would be "01".
+
+To decode a message that has been encoded using Huffman coding, the algorithm traverses the tree using the series of 0s and 1s in the encoded message, and stops at the leaf node corresponding to each character in the original message.
+
+Huffman coding is widely used in data compression applications because it can effectively compress data by taking advantage of the statistical properties of the message or data stream being compressed. It is also relatively simple to implement and can be easily adapted to different types of data.
