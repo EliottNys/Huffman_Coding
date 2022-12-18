@@ -1,12 +1,15 @@
+import math
+
 def read(file_name):
     print(file_name)
-    with open(file_name, "r") as file:
+    with open(file_name, "r", encoding="utf8") as file:
         contents = file.read()
     contents = contents.replace("\n", "*")
     return contents
 
-def visualisation_bar(before_compression, after_compression):
-    print("\nSpace usage BEFORE compression:\n{}  {} bits".format('█' * 200, str(before_compression)))
+def visualisation_bar(before_compression, before_compression_minimum_fixed_bits, after_compression):
+    print("\nSpace usage BEFORE compression (8 bits / character):\n{}  {} bits".format('█' * 200, str(before_compression)))
+    print("\nSpace usage BEFORE compression but with LOWEST fixed number of bits possible:\n{}  {} bits\n=> IMPROVEMENT: {}%\n".format('█' * int((200 * before_compression_minimum_fixed_bits/before_compression)), str(before_compression_minimum_fixed_bits), round(100*(before_compression_minimum_fixed_bits/before_compression))))
     print("\nSpace usage AFTER compression:\n{}  {} bits\n=> IMPROVEMENT: {}%\n\n\n\n".format('█' * int((200 * after_compression/before_compression)), str(after_compression), round(100*(after_compression/before_compression))))
 
 # A Huffman Tree Node
@@ -65,13 +68,14 @@ def Output_Encoded(data, coding):
         
 """ A helper function to calculate the space difference between compressed and non compressed data"""    
 def Total_Gain(data, coding):
-    before_compression = len(data) * 8 # total bit space to stor the data before compression
+    before_compression = len(data) * 8 # total bit space to store the data before compression
     after_compression = 0
     symbols = coding.keys()
+    before_compression_minimum_fixed_bits = len(data) * math.ceil(math.log2(len(symbols)))
     for symbol in symbols:
         count = data.count(symbol)
-        after_compression += count * len(coding[symbol]) #calculate how many bit is required for that symbol in total
-    visualisation_bar(before_compression, after_compression)       
+        after_compression += count * len(coding[symbol]) #calculate how many bits are required for that symbol in total
+    visualisation_bar(before_compression, before_compression_minimum_fixed_bits, after_compression)       
 
 def Huffman_Encoding(data):
     symbol_with_probs = Calculate_Probability(data)
